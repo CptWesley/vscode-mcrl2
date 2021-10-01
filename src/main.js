@@ -12,12 +12,15 @@ function deactivate() {
 }
 
 function register(context, name, func) {
-	let disposable = vscode.commands.registerCommand(name, func);
+	let disposable = vscode.commands.registerCommand(name, function() {
+		output.clear();
+		output.show(true);
+		func();
+	});
 	context.subscriptions.push(disposable);
 }
 
 function parse() {
-	output.show();
 	runMcrl2("mcrl22lps", "-e " + vscode.window.activeTextEditor.document.fileName);
 }
 

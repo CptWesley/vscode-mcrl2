@@ -1,0 +1,24 @@
+{
+    "name": "mcrl2",
+    "displayName": "mCRL2",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.57.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "mcrl2",
+            "aliases": ["mCRL2", "mcrl2"],
+            "extensions": [".mcrl2", ".mcf"]
+        }],
+        "grammars": [{
+            "language": "mcrl2",
+            "scopeName": "source.mcrl2",
+            "path": "./syntaxes/mcrl2.tmLanguage.json"
+        }]
+    }
+}

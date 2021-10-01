@@ -1,0 +1,57 @@
+{
+	"name":"mCRL2",
+	"patterns":[
+		{
+			"include":"#comment"
+		},
+		{
+			"include":"#number"
+		},
+		{
+			"include":"#constant"
+		},
+		{
+			"include":"#type"
+		},
+		{
+			"include":"#keyword"
+		},
+		{
+			"include":"#id"
+		},
+		{
+			"include":"#op"
+		}
+	],
+	"repository":{
+		"comment":{
+			"name": "comment.line.percentage.mcrl2",
+			"match": "%.+"
+		},
+		"constant":{
+			"name": "constant.language.mcrl2",
+			"match": "delta|false|nil|tau|true"
+		},
+		"type":{
+			"name": "entity.name.type.mcrl2",
+			"match": "Bag|Bool|Int|List|Nat|Pos|Real|Set"
+		},
+		"keyword":{
+			"name": "keyword.control.mcrl2",
+			"match": "act|allow|block|comm|cons|delay|div|end|eqn|exists|forall|glob|hide|if|init|in|lambda|map|mod|mu|nu|pbes|proc|rename|sort|struct|sum|val|var|whr|yaled"
+		},
+		"number":{
+			"name": "constant.numeric.mcrl2",
+			"match": "0|-?([1-9][0-9]*)"
+		},
+		"id":{
+			"name": "variable.other.mcrl2",
+			"match": "[A-Za-z_][A-Za-z_0-9']*"
+		},
+		"op":{
+			"name": "keyword.operator.mcrl2",
+			"match": "\\+|\\.|\\|(->)|<|>|(==)|(!=)|(<=)|(>=)"
+		}
+	},
+	"scopeName":"source.mcrl2"
+ }

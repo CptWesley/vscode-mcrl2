@@ -42,12 +42,20 @@
             {
                 "command": "mcrl2.parse",
                 "title": "mCRL2: Parse"
+            },
+            {
+                "command": "mcrl2.showGraph",
+                "title": "mCRL2: Show Graph"
             }
         ],
         "menus": {
             "commandPalette": [
                 {
                     "command": "mcrl2.parse",
+                    "when": "editorLangId == mcrl2"
+                },
+                {
+                    "command": "mcrl2.showGraph",
                     "when": "editorLangId == mcrl2"
                 }
             ]

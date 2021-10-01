@@ -1,10 +1,13 @@
 const vscode = require('vscode');
 const cp = require('child_process');
+const fs = require('fs');
+const px = require('path');
 
 let output = vscode.window.createOutputChannel('mCRL2');
 
 function activate(context) {
 	register(context, 'mcrl2.parse', parse);
+	register(context, 'mcrl2.showGraph', showGraph);
 }
 
 function deactivate() {
@@ -21,7 +24,29 @@ function register(context, name, func) {
 }
 
 function parse() {
-	runMcrl2("mcrl22lps", "-e", vscode.window.activeTextEditor.document.fileName);
+	runMcrl2("mcrl22lps", ["-e", vscode.window.activeTextEditor.document.fileName]);
+}
+
+function showGraph() {
+	ensureDirectory(toProjectPath('./out'));
+
+	runMcrl2("mcrl22lps", [vscode.window.activeTextEditor.document.fileName, toProjectPath("./out/temp.lps")], () => {
+		runMcrl2("lps2lts", [toProjectPath("./out/temp.lps"), toProjectPath("./out/temp.lts")], () => {
+			runMcrl2("ltsgraph", [toProjectPath("./out/temp.lts")]);
+		});
+	});
+}
+
+function ensureDirectory(dir) {
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
+}
+
+function toProjectPath(pathName) {
+	let dir = vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath;
+	let normalized = px.normalize(dir);
+	return px.join(normalized, pathName);
 }
 
 function createCommand(cmd) {
@@ -39,7 +64,7 @@ function createCommand(cmd) {
 	return binPath + cmd.trim();
 }
 
-function run(cmd) {
+function run(cmd, callback=function(){}) {
 	let process = cp.exec(cmd);
 	process.stdout.setEncoding('utf8');
 	process.stderr.setEncoding('utf8');
@@ -49,11 +74,16 @@ function run(cmd) {
 	process.stderr.on('data', function(data) {
 		output.append(data.toString());
 	});
+	process.on('close', function(code) {
+		if (code == 0) {
+			callback();
+		}
+	});
 }
 
-function runMcrl2(cmd, ...args) {
+function runMcrl2(cmd, args, callback=function(){}) {
 	let argString = args.map(x => x.trim()).join(' ');
-	run(createCommand(cmd) + " " + argString);
+	return run(createCommand(cmd) + " " + argString, callback);
 }
 
 module.exports = {

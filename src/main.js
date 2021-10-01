@@ -8,6 +8,7 @@ let output = vscode.window.createOutputChannel('mCRL2');
 function activate(context) {
 	register(context, 'mcrl2.parse', parse);
 	register(context, 'mcrl2.showGraph', showGraph);
+	register(context, 'mcrl2.simulate', simulate);
 }
 
 function deactivate() {
@@ -18,6 +19,7 @@ function register(context, name, func) {
 	let disposable = vscode.commands.registerCommand(name, function() {
 		output.clear();
 		output.show(true);
+		ensureDirectory(toProjectPath('./out'));
 		func();
 	});
 	context.subscriptions.push(disposable);
@@ -28,12 +30,16 @@ function parse() {
 }
 
 function showGraph() {
-	ensureDirectory(toProjectPath('./out'));
-
 	runMcrl2("mcrl22lps", [vscode.window.activeTextEditor.document.fileName, toProjectPath("./out/temp.lps")], () => {
 		runMcrl2("lps2lts", [toProjectPath("./out/temp.lps"), toProjectPath("./out/temp.lts")], () => {
 			runMcrl2("ltsgraph", [toProjectPath("./out/temp.lts")]);
 		});
+	});
+}
+
+function simulate() {
+	runMcrl2("mcrl22lps", [vscode.window.activeTextEditor.document.fileName, toProjectPath("./out/temp.lps")], () => {
+		runMcrl2("lpsxsim", [toProjectPath("./out/temp.lps")]);
 	});
 }
 

@@ -46,6 +46,10 @@
             {
                 "command": "mcrl2.showGraph",
                 "title": "mCRL2: Show Graph"
+            },
+            {
+                "command": "mcrl2.simulate",
+                "title": "mCRL2: Simulate"
             }
         ],
         "menus": {
@@ -56,6 +60,10 @@
                 },
                 {
                     "command": "mcrl2.showGraph",
+                    "when": "editorLangId == mcrl2"
+                },
+                {
+                    "command": "mcrl2.simulate",
                     "when": "editorLangId == mcrl2"
                 }
             ]

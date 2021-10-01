@@ -21,7 +21,7 @@ function register(context, name, func) {
 }
 
 function parse() {
-	runMcrl2("mcrl22lps", "-e " + vscode.window.activeTextEditor.document.fileName);
+	runMcrl2("mcrl22lps", "-e", vscode.window.activeTextEditor.document.fileName);
 }
 
 function createCommand(cmd) {

@@ -1,14 +1,21 @@
 {
     "name": "mcrl2",
     "displayName": "mCRL2",
-    "description": "",
+    "description": "Language support for mCRL2.",
     "version": "0.0.1",
+    "publisher": "Wesley Baartman",
+    "repository": "https://github.com/CptWesley/vscode-mcrl2",
+    "license": "MIT",
     "engines": {
         "vscode": "^1.57.0"
     },
     "categories": [
         "Programming Languages"
     ],
+    "activationEvents": [
+        "onLanguage:mcrl2"
+    ],
+    "main": "./src/main.js",
     "contributes": {
         "languages": [{
             "id": "mcrl2",
@@ -19,6 +26,31 @@
             "language": "mcrl2",
             "scopeName": "source.mcrl2",
             "path": "./syntaxes/mcrl2.tmLanguage.json"
-        }]
+        }],
+        "configuration": {
+            "title": "mCRL2",
+            "properties": {
+                "mcrl2.binPath": {
+                    "type": "string",
+                    "default": "",
+                    "scope": "machine-overridable",
+                    "description": "Path to the bin folder of an mCRL2 installation. Empty (default) means infer installation directory."
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "mcrl2.parse",
+                "title": "mCRL2: Parse"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "mcrl2.parse",
+                    "when": "editorLangId == mcrl2"
+                }
+            ]
+        }
     }
 }

@@ -3,7 +3,7 @@
     "displayName": "mCRL2",
     "description": "Language support for mCRL2.",
     "version": "0.0.1",
-    "publisher": "Wesley Baartman",
+    "publisher": "CptWesley",
     "repository": "https://github.com/CptWesley/vscode-mcrl2",
     "license": "MIT",
     "engines": {

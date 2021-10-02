@@ -14,6 +14,9 @@
 			"include":"#type"
 		},
 		{
+			"include":"#control"
+		},
+		{
 			"include":"#keyword"
 		},
 		{
@@ -36,9 +39,13 @@
 			"name": "entity.name.type.mcrl2",
 			"match": "Bag|Bool|Int|List|Nat|Pos|Real|Set"
 		},
-		"keyword":{
+		"control":{
 			"name": "keyword.control.mcrl2",
-			"match": "act|allow|block|comm|cons|delay|div|end|eqn|exists|forall|glob|hide|if|init|in|lambda|map|mod|mu|nu|pbes|proc|rename|sort|struct|sum|val|var|whr|yaled"
+			"match": "act|init|eqn|map|proc|sort|struct|var"
+		},
+		"keyword":{
+			"name": "keyword.other.mcrl2",
+			"match": "allow|block|comm|cons|delay|div|end|glob|hide|if|in|lambda|mod|pbes|rename|sum|val|whr|yaled"
 		},
 		"number":{
 			"name": "constant.numeric.mcrl2",
@@ -50,7 +57,7 @@
 		},
 		"op":{
 			"name": "keyword.operator.mcrl2",
-			"match": "\\+|\\.|\\|(->)|<|>|(==)|(!=)|(<=)|(>=)|-|\\*|!"
+			"match": "\\+|\\.|(\\|)|(->)|<|>|(==)|(!=)|(<=)|(>=)|-|\\*|!|(=>)"
 		}
 	},
 	"scopeName":"source.mcrl2"

@@ -17,16 +17,30 @@
     ],
     "main": "./src/main.js",
     "contributes": {
-        "languages": [{
-            "id": "mcrl2",
-            "aliases": ["mCRL2", "mcrl2"],
-            "extensions": [".mcrl2", ".mcf"]
-        }],
-        "grammars": [{
-            "language": "mcrl2",
-            "scopeName": "source.mcrl2",
-            "path": "./syntaxes/mcrl2.tmLanguage.json"
-        }],
+        "languages": [
+            {
+                "id": "mcrl2",
+                "aliases": ["mCRL2", "mcrl2"],
+                "extensions": [".mcrl2"]
+            },
+            {
+                "id": "mcf",
+                "aliases": ["MCF", "mcf"],
+                "extensions": [".mcf"]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "mcrl2",
+                "scopeName": "source.mcrl2",
+                "path": "./syntaxes/mcrl2.tmLanguage.json"
+            },
+            {
+                "language": "mcf",
+                "scopeName": "source.mcf",
+                "path": "./syntaxes/mcf.tmLanguage.json"
+            }
+        ],
         "configuration": {
             "title": "mCRL2",
             "properties": {

@@ -14,4 +14,4 @@ Use any of the provided run-options at the top right of the editor window, or al
 - __F4__: Parses the specification.
 - __F5__: Shows the LTS Graph.
 - __F6__: Simulates the LTS.
-- __F7__: Runs all 
+- __F7__: Verifies all found properties.

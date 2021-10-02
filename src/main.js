@@ -9,6 +9,7 @@ function activate(context) {
 	register(context, 'mcrl2.parse', parse);
 	register(context, 'mcrl2.showGraph', showGraph);
 	register(context, 'mcrl2.simulate', simulate);
+	register(context, 'mcrl2.verifyProperties', verifyProperties);
 }
 
 function deactivate() {
@@ -26,20 +27,37 @@ function register(context, name, func) {
 }
 
 function parse() {
-	runMcrl2("mcrl22lps", ["-e", vscode.window.activeTextEditor.document.fileName]);
+	runMcrl2('mcrl22lps', ['-e', vscode.window.activeTextEditor.document.fileName]);
 }
 
 function showGraph() {
-	runMcrl2("mcrl22lps", [vscode.window.activeTextEditor.document.fileName, toProjectPath("./out/temp.lps")], () => {
-		runMcrl2("lps2lts", [toProjectPath("./out/temp.lps"), toProjectPath("./out/temp.lts")], () => {
-			runMcrl2("ltsgraph", [toProjectPath("./out/temp.lts")]);
+	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
+		runMcrl2('lps2lts', [toProjectPath('./out/temp.lps'), toProjectPath('./out/temp.lts')], () => {
+			runMcrl2('ltsgraph', [toProjectPath('./out/temp.lts')]);
 		});
 	});
 }
 
 function simulate() {
-	runMcrl2("mcrl22lps", [vscode.window.activeTextEditor.document.fileName, toProjectPath("./out/temp.lps")], () => {
-		runMcrl2("lpsxsim", [toProjectPath("./out/temp.lps")]);
+	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
+		runMcrl2('lpsxsim', [toProjectPath('./out/temp.lps')]);
+	});
+}
+
+function verifyProperties() {
+	let dir = toProjectPath();
+	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
+		for (let mcf of getFiles(dir, '.mcf')) {
+			runMcrl2('lps2pbes', [toProjectPath('./out/temp.lps'), '-f', mcf, '| ' + createCommand('pbes2bool')], (result) => {
+				if (result === 'true') {
+					output.appendLine('[SUCCEEDED] ' + mcf);
+				} else if (result === 'false') {
+					output.appendLine('[FAILED] ' + mcf);
+				} else {
+					output.appendLine('[WTF] ' + result);
+				}
+			}, true);
+		}
 	});
 }
 
@@ -49,47 +67,67 @@ function ensureDirectory(dir) {
 	}
 }
 
-function toProjectPath(pathName) {
+function toProjectPath(pathName='') {
 	let dir = vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath;
 	let normalized = px.normalize(dir);
-	return px.join(normalized, pathName);
+	let trimmed = pathName.trim();
+
+	if (trimmed.length == 0) {
+		return normalized;
+	}
+
+	return px.join(normalized, trimmed);
 }
 
 function createCommand(cmd) {
 	let config = vscode.workspace.getConfiguration('mcrl2');
-	var binPath = config.get('binPath').trim();
+	let binPath = config.get('binPath').trim();
 
 	if (binPath.length == 0) {
 		return cmd.trim();
 	}
 
-	if (binPath.length > 0 && binPath[binPath.length - 1] != '/' && binPath[binPath.length - 1] != '\\') {
-		binPath += '/';
-	}
-
-	return binPath + cmd.trim();
+	return px.join(px.normalize(binPath), cmd.trim());
 }
 
-function run(cmd, callback=function(){}) {
+function run(cmd, callback=function(){}, suppressed=false) {
 	let process = cp.exec(cmd);
+	var result = '';
 	process.stdout.setEncoding('utf8');
 	process.stderr.setEncoding('utf8');
 	process.stdout.on('data', function(data) {
-		output.append(data.toString());
+		if (!suppressed) {
+			output.append(data.toString());
+		}
+		result += data.toString();
 	});
 	process.stderr.on('data', function(data) {
-		output.append(data.toString());
+		if (!suppressed) {
+			output.append(data.toString());
+		}
+		result += data.toString();
 	});
 	process.on('close', function(code) {
 		if (code == 0) {
-			callback();
+			callback(result.trim());
 		}
 	});
 }
 
-function runMcrl2(cmd, args, callback=function(){}) {
+function runMcrl2(cmd, args, callback=function(){}, suppressed=false) {
 	let argString = args.map(x => x.trim()).join(' ');
-	return run(createCommand(cmd) + " " + argString, callback);
+	return run(createCommand(cmd) + ' ' + argString, callback, suppressed);
+}
+
+function *getFiles(dir, withExtension='') {
+	let files = fs.readdirSync(dir, { withFileTypes: true });
+	for (let file of files) {
+	  	if (file.isDirectory()) {
+			yield* getFiles(px.join(dir, file.name), withExtension);
+	  	} else if (file.name.endsWith(withExtension)) {
+			yield px.join(dir, file.name);
+	  	}
+	}
 }
 
 module.exports = {

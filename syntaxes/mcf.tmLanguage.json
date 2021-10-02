@@ -17,9 +17,6 @@
 			"include":"#control"
 		},
 		{
-			"include":"#keyword"
-		},
-		{
 			"include":"#id"
 		},
 		{
@@ -41,11 +38,7 @@
 		},
 		"control":{
 			"name": "keyword.control.mcf",
-			"match": "exists|forall|in|lambda|mod|whr"
-		},
-		"keyword":{
-			"name": "keyword.control.mcf",
-			"match": "mu|nu"
+			"match": "exists|forall|in|lambda|mod|whr|mu|nu"
 		},
 		"number":{
 			"name": "constant.numeric.mcf",

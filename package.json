@@ -70,6 +70,12 @@
                 "category": "mCRL2",
                 "title": "Simulate",
                 "icon": "$(debug-alt)"
+            },
+            {
+                "command": "mcrl2.verifyProperties",
+                "category": "mCRL2",
+                "title": "Verify Properties",
+                "icon": "$(run-all)"
             }
         ],
         "menus": {
@@ -84,6 +90,10 @@
                 },
                 {
                     "command": "mcrl2.simulate",
+                    "when": "editorLangId == mcrl2"
+                },
+                {
+                    "command": "mcrl2.verifyProperties",
                     "when": "editorLangId == mcrl2"
                 }
             ],
@@ -104,6 +114,12 @@
                     "command": "mcrl2.simulate",
                     "group": "navigation@2",
                     "title": "Simulate",
+                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
+                },
+                {
+                    "command": "mcrl2.verifyProperties",
+                    "group": "navigation@3",
+                    "title": "Verify Properties",
                     "when": "resourceLangId == mcrl2 && !isInDiffEditor"
                 }
             ]

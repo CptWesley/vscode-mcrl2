@@ -41,15 +41,21 @@
         "commands": [
             {
                 "command": "mcrl2.parse",
-                "title": "mCRL2: Parse"
+                "category": "mCRL2",
+                "title": "Parse",
+                "icon": "$(refresh)"
             },
             {
                 "command": "mcrl2.showGraph",
-                "title": "mCRL2: Show Graph"
+                "category": "mCRL2",
+                "title": "Show Graph",
+                "icon": "$(play)"
             },
             {
                 "command": "mcrl2.simulate",
-                "title": "mCRL2: Simulate"
+                "category": "mCRL2",
+                "title": "Simulate",
+                "icon": "$(debug-alt)"
             }
         ],
         "menus": {
@@ -65,6 +71,26 @@
                 {
                     "command": "mcrl2.simulate",
                     "when": "editorLangId == mcrl2"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "mcrl2.parse",
+                    "group": "navigation@0",
+                    "title": "Parse",
+                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
+                },
+                {
+                    "command": "mcrl2.showGraph",
+                    "group": "navigation@1",
+                    "title": "Show graph",
+                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
+                },
+                {
+                    "command": "mcrl2.simulate",
+                    "group": "navigation@2",
+                    "title": "Simulate",
+                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
                 }
             ]
         }

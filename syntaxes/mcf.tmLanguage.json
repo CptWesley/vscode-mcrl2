@@ -1,0 +1,64 @@
+{
+	"name":"MCF",
+	"patterns":[
+		{
+			"include":"#comment"
+		},
+		{
+			"include":"#number"
+		},
+		{
+			"include":"#constant"
+		},
+		{
+			"include":"#type"
+		},
+		{
+			"include":"#control"
+		},
+		{
+			"include":"#keyword"
+		},
+		{
+			"include":"#id"
+		},
+		{
+			"include":"#op"
+		}
+	],
+	"repository":{
+		"comment":{
+			"name": "comment.line.percentage.mcf",
+			"match": "%.+"
+		},
+		"constant":{
+			"name": "constant.language.mcf",
+			"match": "delta|false|nil|tau|true"
+		},
+		"type":{
+			"name": "entity.name.type.mcf",
+			"match": "Bag|Bool|Int|List|Nat|Pos|Real|Set"
+		},
+		"control":{
+			"name": "keyword.control.mcf",
+			"match": "exists|forall|in|lambda|mod|whr"
+		},
+		"keyword":{
+			"name": "keyword.control.mcf",
+			"match": "mu|nu"
+		},
+		"number":{
+			"name": "constant.numeric.mcf",
+			"match": "0|-?([1-9][0-9]*)"
+		},
+		"id":{
+			"name": "variable.other.mcf",
+			"match": "[A-Za-z_][A-Za-z_0-9']*"
+		},
+		"op":{
+			"name": "keyword.operator.mcf",
+			"match": "\\+|\\.|(\\|)|<|>|(==)|(!=)|(<=)|(>=)|-|\\*|!|(=>)|&"
+		}
+	},
+	"scopeName":"source.mcf"
+ }

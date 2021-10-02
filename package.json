@@ -78,6 +78,28 @@
                 "icon": "$(run-all)"
             }
         ],
+        "keybindings": [
+            {
+                "command": "mcrl2.parse",
+                "key": "F4",
+                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+            },
+            {
+                "command": "mcrl2.showGraph",
+                "key": "F5",
+                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+            },
+            {
+                "command": "mcrl2.simulate",
+                "key": "F6",
+                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+            },
+            {
+                "command": "mcrl2.verifyProperties",
+                "key": "F7",
+                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+            }
+        ],
         "menus": {
             "commandPalette": [
                 {

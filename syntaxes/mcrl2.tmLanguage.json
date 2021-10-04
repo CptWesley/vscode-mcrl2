@@ -33,19 +33,19 @@
 		},
 		"constant":{
 			"name": "constant.language.mcrl2",
-			"match": "delta|false|nil|tau|true"
+			"match": "(delta|false|nil|tau|true)(?!\\w)"
 		},
 		"type":{
 			"name": "entity.name.type.mcrl2",
-			"match": "Bag|Bool|Int|List|Nat|Pos|Real|Set"
+			"match": "(Bag|Bool|Int|List|Nat|Pos|Real|Set)(?!\\w)"
 		},
 		"control":{
 			"name": "keyword.control.mcrl2",
-			"match": "act|init|eqn|map|proc|sort|struct|var"
+			"match": "(act|init|eqn|map|proc|sort|struct|var)(?!\\w)"
 		},
 		"keyword":{
 			"name": "keyword.other.mcrl2",
-			"match": "allow|block|comm|cons|delay|div|end|glob|hide|if|in|lambda|mod|pbes|rename|sum|val|whr|yaled"
+			"match": "(allow|block|comm|cons|delay|div|end|glob|hide|if|in|lambda|mod|pbes|rename|sum|val|whr|yaled)(?!\\w)"
 		},
 		"number":{
 			"name": "constant.numeric.mcrl2",

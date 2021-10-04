@@ -30,15 +30,15 @@
 		},
 		"constant":{
 			"name": "constant.language.mcf",
-			"match": "delta|false|nil|tau|true"
+			"match": "(delta|false|nil|tau|true)(?!\\w)"
 		},
 		"type":{
 			"name": "entity.name.type.mcf",
-			"match": "Bag|Bool|Int|List|Nat|Pos|Real|Set"
+			"match": "(Bag|Bool|Int|List|Nat|Pos|Real|Set)(?!\\w)"
 		},
 		"control":{
 			"name": "keyword.control.mcf",
-			"match": "exists|forall|in|lambda|mod|whr|mu|nu"
+			"match": "(exists|forall|in|lambda|mod|whr|mu|nu)(?!\\w)"
 		},
 		"number":{
 			"name": "constant.numeric.mcf",

@@ -1,150 +1,165 @@
 {
-    "name": "mcrl2",
-    "displayName": "mCRL2",
-    "description": "Language support for mCRL2.",
-    "version": "0.0.2",
-    "publisher": "CptWesley",
-    "repository": "https://github.com/CptWesley/vscode-mcrl2",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.57.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "activationEvents": [
-        "onLanguage:mcrl2"
-    ],
-    "main": "./src/main.js",
-    "contributes": {
-        "languages": [
-            {
-                "id": "mcrl2",
-                "aliases": ["mCRL2", "mcrl2"],
-                "extensions": [".mcrl2"]
-            },
-            {
-                "id": "mcf",
-                "aliases": ["MCF", "mcf"],
-                "extensions": [".mcf"]
-            }
-        ],
-        "grammars": [
-            {
-                "language": "mcrl2",
-                "scopeName": "source.mcrl2",
-                "path": "./syntaxes/mcrl2.tmLanguage.json"
-            },
-            {
-                "language": "mcf",
-                "scopeName": "source.mcf",
-                "path": "./syntaxes/mcf.tmLanguage.json"
-            }
-        ],
-        "configuration": {
-            "title": "mCRL2",
-            "properties": {
-                "mcrl2.binPath": {
-                    "type": "string",
-                    "default": "",
-                    "scope": "machine-overridable",
-                    "description": "Path to the bin folder of an mCRL2 installation. Empty (default) means infer installation directory."
-                }
-            }
-        },
-        "commands": [
-            {
-                "command": "mcrl2.parse",
-                "category": "mCRL2",
-                "title": "Parse",
-                "icon": "$(refresh)"
-            },
-            {
-                "command": "mcrl2.showGraph",
-                "category": "mCRL2",
-                "title": "Show Graph",
-                "icon": "$(play)"
-            },
-            {
-                "command": "mcrl2.simulate",
-                "category": "mCRL2",
-                "title": "Simulate",
-                "icon": "$(debug-alt)"
-            },
-            {
-                "command": "mcrl2.verifyProperties",
-                "category": "mCRL2",
-                "title": "Verify Properties",
-                "icon": "$(run-all)"
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "mcrl2.parse",
-                "key": "F4",
-                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
-            },
-            {
-                "command": "mcrl2.showGraph",
-                "key": "F5",
-                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
-            },
-            {
-                "command": "mcrl2.simulate",
-                "key": "F6",
-                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
-            },
-            {
-                "command": "mcrl2.verifyProperties",
-                "key": "F7",
-                "when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
-            }
-        ],
-        "menus": {
-            "commandPalette": [
-                {
-                    "command": "mcrl2.parse",
-                    "when": "editorLangId == mcrl2"
-                },
-                {
-                    "command": "mcrl2.showGraph",
-                    "when": "editorLangId == mcrl2"
-                },
-                {
-                    "command": "mcrl2.simulate",
-                    "when": "editorLangId == mcrl2"
-                },
-                {
-                    "command": "mcrl2.verifyProperties",
-                    "when": "editorLangId == mcrl2"
-                }
-            ],
-            "editor/title": [
-                {
-                    "command": "mcrl2.parse",
-                    "group": "navigation@0",
-                    "title": "Parse",
-                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
-                },
-                {
-                    "command": "mcrl2.showGraph",
-                    "group": "navigation@1",
-                    "title": "Show graph",
-                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
-                },
-                {
-                    "command": "mcrl2.simulate",
-                    "group": "navigation@2",
-                    "title": "Simulate",
-                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
-                },
-                {
-                    "command": "mcrl2.verifyProperties",
-                    "group": "navigation@3",
-                    "title": "Verify Properties",
-                    "when": "resourceLangId == mcrl2 && !isInDiffEditor"
-                }
-            ]
-        }
-    }
+	"name": "mcrl2",
+	"displayName": "mCRL2",
+	"description": "Language support for mCRL2.",
+	"version": "0.0.2",
+	"publisher": "CptWesley",
+	"repository": "https://github.com/CptWesley/vscode-mcrl2",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.57.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"activationEvents": [
+		"onLanguage:mcrl2"
+	],
+	"main": "./src/main.js",
+	"contributes": {
+		"languages": [
+			{
+				"id": "mcrl2",
+				"aliases": [
+					"mCRL2",
+					"mcrl2"
+				],
+				"extensions": [
+					".mcrl2"
+				]
+			},
+			{
+				"id": "mcf",
+				"aliases": [
+					"MCF",
+					"mcf"
+				],
+				"extensions": [
+					".mcf"
+				]
+			}
+		],
+		"grammars": [
+			{
+				"language": "mcrl2",
+				"scopeName": "source.mcrl2",
+				"path": "./syntaxes/mcrl2.tmLanguage.json"
+			},
+			{
+				"language": "mcf",
+				"scopeName": "source.mcf",
+				"path": "./syntaxes/mcf.tmLanguage.json"
+			}
+		],
+		"configuration": {
+			"title": "mCRL2",
+			"properties": {
+				"mcrl2.binPath": {
+					"type": "string",
+					"default": "",
+					"scope": "machine-overridable",
+					"description": "Path to the bin folder of an mCRL2 installation. Empty (default) means infer installation directory."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "mcrl2.parse",
+				"category": "mCRL2",
+				"title": "Parse",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "mcrl2.showGraph",
+				"category": "mCRL2",
+				"title": "Show Graph",
+				"icon": "$(play)"
+			},
+			{
+				"command": "mcrl2.simulate",
+				"category": "mCRL2",
+				"title": "Simulate",
+				"icon": "$(debug-alt)"
+			},
+			{
+				"command": "mcrl2.verifyProperties",
+				"category": "mCRL2",
+				"title": "Verify Properties",
+				"icon": "$(run-all)"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "mcrl2.parse",
+				"key": "F4",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			},
+			{
+				"command": "mcrl2.showGraph",
+				"key": "F5",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			},
+			{
+				"command": "mcrl2.simulate",
+				"key": "F6",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			},
+			{
+				"command": "mcrl2.verifyProperties",
+				"key": "F7",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "mcrl2.parse",
+					"when": "editorLangId == mcrl2"
+				},
+				{
+					"command": "mcrl2.showGraph",
+					"when": "editorLangId == mcrl2"
+				},
+				{
+					"command": "mcrl2.simulate",
+					"when": "editorLangId == mcrl2"
+				},
+				{
+					"command": "mcrl2.verifyProperties",
+					"when": "editorLangId == mcrl2"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "mcrl2.parse",
+					"group": "navigation@0",
+					"title": "Parse",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
+				},
+				{
+					"command": "mcrl2.showGraph",
+					"group": "navigation@1",
+					"title": "Show graph",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
+				},
+				{
+					"command": "mcrl2.simulate",
+					"group": "navigation@2",
+					"title": "Simulate",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
+				},
+				{
+					"command": "mcrl2.verifyProperties",
+					"group": "navigation@3",
+					"title": "Verify Properties",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
+				}
+			]
+		}
+	},
+	"__metadata": {
+		"id": "1062452d-9561-49af-a1cc-5bdb5967a2bc",
+		"publisherDisplayName": "Wesley Baartman",
+		"publisherId": "baa679f7-8755-49cc-b07b-d713160334b2"
+	}
 }

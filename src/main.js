@@ -82,12 +82,12 @@ function toProjectPath(pathName='') {
 function createCommand(cmd) {
 	let config = vscode.workspace.getConfiguration('mcrl2');
 	let binPath = config.get('binPath').trim();
-
+	
 	if (binPath.length == 0) {
 		return cmd.trim();
 	}
 
-	return px.join(px.normalize(binPath), cmd.trim());
+	return '"' + px.join(px.normalize(binPath), cmd.trim()) + '"';
 }
 
 function run(cmd, callback=function(){}, suppressed=false) {

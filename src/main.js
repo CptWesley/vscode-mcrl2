@@ -115,8 +115,10 @@ function run(cmd, callback=function(){}, suppressed=false) {
 }
 
 function runMcrl2(cmd, args, callback=function(){}, suppressed=false) {
-	let argString = args.map(x => '"' + x.trim() + '"').join(' ');
-	return run(createCommand(cmd) + ' ' + argString, callback, suppressed);
+	vscode.window.activeTextEditor.document.save().then(x => {
+		let argString = args.map(x => '"' + x.trim() + '"').join(' ');
+		run(createCommand(cmd) + ' ' + argString, callback, suppressed);
+	});
 }
 
 function *getFiles(dir, withExtension='') {

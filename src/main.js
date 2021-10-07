@@ -115,7 +115,7 @@ function run(cmd, callback=function(){}, suppressed=false) {
 }
 
 function runMcrl2(cmd, args, callback=function(){}, suppressed=false) {
-	let argString = args.map(x => x.trim()).join(' ');
+	let argString = args.map(x => '"' + x.trim() + '"').join(' ');
 	return run(createCommand(cmd) + ' ' + argString, callback, suppressed);
 }
 

@@ -5,14 +5,15 @@
     "brackets": [
       ["{", "}"],
       ["[", "]"],
-      ["(", ")"]
+      ["(", ")"],
+      ["=", ";"]
     ],
     "autoClosingPairs": [
         { "open": "{", "close": "}", "notIn": ["comment"] },
         { "open": "[", "close": "]", "notIn": ["comment"] },
         { "open": "(", "close": ")", "notIn": ["comment"] }
     ],
-    "autoCloseBefore": ";.+",
+    "autoCloseBefore": ";.+-",
     "surroundingPairs": [
       ["{", "}"],
       ["[", "]"],
@@ -23,5 +24,11 @@
         "start": "^\\s*\\w+\\s*=",
         "end": "^\\s*;"
       }
-    }
+    },
+    "onEnterRules": [
+      {
+        "beforeText": "(act|init|eqn|map|proc|sort|cons|struct|var)$",
+        "action": { "indent": "indent" }
+      }
+    ]
   }

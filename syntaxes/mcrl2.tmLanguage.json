@@ -41,11 +41,11 @@
 		},
 		"control":{
 			"name": "keyword.control.mcrl2",
-			"match": "(act|init|eqn|map|proc|sort|struct|var)(?!\\w)"
+			"match": "(act|init|eqn|map|proc|sort|cons|struct|var)(?!\\w)"
 		},
 		"keyword":{
 			"name": "keyword.other.mcrl2",
-			"match": "(allow|block|comm|cons|delay|div|end|glob|hide|if|in|lambda|mod|pbes|rename|sum|val|whr|yaled)(?!\\w)"
+			"match": "(allow|block|comm|delay|div|end|glob|hide|if|in|lambda|mod|pbes|rename|sum|val|whr|yaled)(?!\\w)"
 		},
 		"number":{
 			"name": "constant.numeric.mcrl2",

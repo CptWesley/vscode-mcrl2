@@ -51,10 +51,8 @@ function verifyProperties() {
 			runMcrl2('lps2pbes', [toProjectPath('./out/temp.lps'), '-f', mcf, '| ' + createCommand('pbes2bool')], (result) => {
 				if (result === 'true') {
 					output.appendLine('[SUCCEEDED] ' + mcf);
-				} else if (result === 'false') {
-					output.appendLine('[FAILED] ' + mcf);
 				} else {
-					output.appendLine('[WTF] ' + result);
+					output.appendLine('[FAILED] ' + mcf);
 				}
 			}, true);
 		}

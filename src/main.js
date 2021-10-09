@@ -68,7 +68,9 @@ function ensureDirectory(dir) {
 }
 
 function toProjectPath(pathName='') {
-	let dir = vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath;
+	let dir = vscode.workspace.workspaceFolders
+		? vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath
+		: px.dirname(vscode.window.activeTextEditor.document.fileName);
 	let normalized = px.normalize(dir);
 	let trimmed = pathName.trim();
 

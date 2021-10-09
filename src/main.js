@@ -46,17 +46,33 @@ function simulate() {
 
 function verifyProperties() {
 	let dir = toProjectPath();
-	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
-		for (let mcf of getFiles(dir, '.mcf')) {
-			runMcrl2('lps2pbes', [toProjectPath('./out/temp.lps'), '-f', mcf, '| ' + createCommand('pbes2bool')], (result) => {
-				if (result === 'true') {
-					output.appendLine('[SUCCEEDED] ' + mcf);
-				} else {
-					output.appendLine('[FAILED] ' + mcf);
-				}
-			}, true);
+	let files = Array.from(getFiles(dir, '.mcf'));
+	output.appendLine('Starting property verification for ' + files.length + ' properties:');
+	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => verifyNextProperty(files, 0, 0));
+}
+
+function verifyNextProperty(files, success, total) {
+	if (files.length == 0) {
+		output.appendLine('Finished verifying properties.');
+		output.appendLine('Successfully verified: ' + success + '/' + total);
+		return;
+	}
+
+	let head = files[0];
+	let tail = files.slice(1);
+	runMcrl2('lps2pbes', [toProjectPath('./out/temp.lps'), '-f', head, '|',  createCommand('pbes2bool')], (result) => {
+		if (result === 'true') {
+			output.appendLine('[SUCCEEDED] ' + head);
+			success++;
+		} else {
+			output.appendLine('[FAILED] ' + head);
+			
+			if (result !== 'false') {
+				output.appendLine(result);
+			}
 		}
-	});
+		verifyNextProperty(tail, success, total + 1);
+	}, true);
 }
 
 function ensureDirectory(dir) {
@@ -116,7 +132,14 @@ function run(cmd, callback=function(){}, suppressed=false) {
 
 function runMcrl2(cmd, args, callback=function(){}, suppressed=false) {
 	vscode.window.activeTextEditor.document.save().then(x => {
-		let argString = args.map(x => '"' + x.trim() + '"').join(' ');
+		let argString = args.map(x => {
+			let trimmed = x.trim();
+			if (trimmed.includes(' ')) {
+				return '"' + trimmed + '"';
+			}
+
+			return trimmed;
+		}).join(' ');
 		run(createCommand(cmd) + ' ' + argString, callback, suppressed);
 	});
 }

@@ -32,10 +32,15 @@ function activate(context) {
 	register(context, 'mcrl2.simulate', simulate);
 	register(context, 'mcrl2.verifyProperties', verifyProperties);
 	register(context, 'mcrl2.equivalence', equivalence);
+	register(context, 'mcrl2.clean', clean);
 }
 
 function deactivate() {
 	//nothing
+}
+
+function clean() {
+	fs.rmdirSync(toProjectPath('./out'), { recursive: true });
 }
 
 function register(context, name, func) {

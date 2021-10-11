@@ -65,6 +65,11 @@
 		},
 		"commands": [
 			{
+				"command": "mcrl2.clean",
+				"category": "mCRL2",
+				"title": "Clean"
+			},
+			{
 				"command": "mcrl2.parse",
 				"category": "mCRL2",
 				"title": "Parse",

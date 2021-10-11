@@ -71,21 +71,16 @@ function equivalence() {
 
 		vscode.window.showQuickPick(equivalenceNames).then(x => {
 			const equivalence = equivalenceTypes[x];
-
-			runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
-				runMcrl2('lps2lts', [toProjectPath('./out/temp.lps'), toProjectPath('./out/temp.lts')], () => {
-					runMcrl2('mcrl22lps', [file, toProjectPath('./out/temp2.lps')], () => {
-						runMcrl2('lps2lts', [toProjectPath('./out/temp2.lps'), toProjectPath('./out/temp2.lts')], () => {
-							runMcrl2('ltscompare', ['-c', '--equivalence=' + equivalence, toProjectPath('./out/temp.lts'), toProjectPath('./out/temp2.lts')], (result) => {
-								const lines = result.split(/\r?\n/);
-								const line = lines[lines.length - 1];
-								if (line === 'false') {
-									
-									output.appendLine('\nCounter Example Trace:');
-									runMcrl2('tracepp', [toProjectPath('./out/Counterexample0.trc')]);
-								}
-							});
-						});
+			mcrl22lts(vscode.window.activeTextEditor.document.fileName, () => {
+				mcrl22lts(file, () => {
+					runMcrl2('ltscompare', ['-c', '--equivalence=' + equivalence, toOutputFileName(vscode.window.activeTextEditor.document.fileName, '.lts'), toOutputFileName(file, '.lts')], (result) => {
+						const lines = result.split(/\r?\n/);
+						const line = lines[lines.length - 1];
+						if (line === 'false') {
+							
+							output.appendLine('\nCounter Example Trace:');
+							runMcrl2('tracepp', [toProjectPath('./out/Counterexample0.trc')]);
+						}
 					});
 				});
 			});
@@ -98,47 +93,46 @@ function parse() {
 }
 
 function showGraph() {
-	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
-		runMcrl2('lps2lts', [toProjectPath('./out/temp.lps'), toProjectPath('./out/temp.lts')], () => {
-			runMcrl2('ltsgraph', [toProjectPath('./out/temp.lts')]);
-		});
+	mcrl22lts(vscode.window.activeTextEditor.document.fileName, () => {
+		runMcrl2('ltsgraph', [toOutputFileName(vscode.window.activeTextEditor.document.fileName, '.lts')]);
 	});
 }
 
 function simulate() {
-	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => {
-		runMcrl2('lpsxsim', [toProjectPath('./out/temp.lps')]);
-	});
+	mcrl22lps(vscode.window.activeTextEditor.document.fileName, () => {
+		runMcrl2('lpsxsim', [toOutputFileName(vscode.window.activeTextEditor.document.fileName, '.lps')]);
+	})
 }
 
 function verifyProperties() {
 	let dir = toProjectPath();
 	let files = Array.from(getFiles(dir, '.mcf'));
 	output.appendLine('Starting property verification for ' + files.length + ' properties:');
-	runMcrl2('mcrl22lps', [vscode.window.activeTextEditor.document.fileName, toProjectPath('./out/temp.lps')], () => verifyNextProperty(files, 0, 0));
+	mcrl22lps(vscode.window.activeTextEditor.document.fileName, () => verifyNextProperty(files, 0, 0, toOutputFileName(vscode.window.activeTextEditor.document.fileName, '.lps')));
 }
 
-function verifyNextProperty(files, success, total) {
+function verifyNextProperty(files, success, total, lpsFile) {
 	if (files.length == 0) {
 		output.appendLine('Finished verifying properties.');
 		output.appendLine('Successfully verified: ' + success + '/' + total);
 		return;
 	}
 
-	let head = files[0];
-	let tail = files.slice(1);
-	runMcrl2('lps2pbes', [toProjectPath('./out/temp.lps'), '-f', head, '|',  createCommand('pbes2bool')], (result) => {
+	const head = files[0];
+	const tail = files.slice(1);
+	runMcrl2('lps2pbes', [lpsFile, '-f', head, '|',  createCommand('pbes2bool')], (result) => {
+		const name = px.relative(toProjectPath(), head);
 		if (result === 'true') {
-			output.appendLine('[SUCCEEDED] ' + head);
+			output.appendLine('[SUCCEEDED] ' + name);
 			success++;
 		} else {
-			output.appendLine('[FAILED] ' + head);
+			output.appendLine('[FAILED] ' + name);
 			
 			if (result !== 'false') {
 				output.appendLine(result);
 			}
 		}
-		verifyNextProperty(tail, success, total + 1);
+		verifyNextProperty(tail, success, total + 1, lpsFile);
 	}, true);
 }
 
@@ -149,11 +143,11 @@ function ensureDirectory(dir) {
 }
 
 function toProjectPath(pathName='') {
-	let dir = vscode.workspace.workspaceFolders
+	const dir = vscode.workspace.workspaceFolders
 		? vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath
 		: px.dirname(vscode.window.activeTextEditor.document.fileName);
-	let normalized = px.normalize(dir);
-	let trimmed = pathName.trim();
+	const normalized = px.normalize(dir);
+	const trimmed = pathName.trim();
 
 	if (trimmed.length == 0) {
 		return normalized;
@@ -163,8 +157,8 @@ function toProjectPath(pathName='') {
 }
 
 function createCommand(cmd) {
-	let config = vscode.workspace.getConfiguration('mcrl2');
-	let binPath = config.get('binPath').trim();
+	const config = vscode.workspace.getConfiguration('mcrl2');
+	const binPath = config.get('binPath').trim();
 	
 	if (binPath.length == 0) {
 		return cmd.trim();
@@ -174,10 +168,10 @@ function createCommand(cmd) {
 }
 
 function run(cmd, callback=function(){}, suppressed=false, errorCallback=function(){}) {
-	let process = cp.exec(cmd, {
+	const process = cp.exec(cmd, {
 		cwd: toProjectPath('./out'),
 	});
-	var result = '';
+	let result = '';
 	process.stdout.setEncoding('utf8');
 	process.stderr.setEncoding('utf8');
 	process.stdout.on('data', function(data) {
@@ -224,6 +218,27 @@ function *getFiles(dir, withExtension='') {
 			yield px.join(dir, file.name);
 	  	}
 	}
+}
+
+function transformFileName(fileName) {
+	const x = px.relative(toProjectPath(), fileName).replaceAll('/', '.').replaceAll('\\', '.');
+	return x.split('.').slice(0, -1).join('.');
+}
+
+function toOutputFileName(fileName, extension) {
+	return toProjectPath(px.join('./out/', transformFileName(fileName) + extension));
+}
+
+function mcrl22lps(fileName, callback=()=>{}) {
+	runMcrl2('mcrl22lps', [fileName, toOutputFileName(fileName, '.lps')], callback);
+}
+
+function lps2lts(fileName, callback=()=>{}) {
+	runMcrl2('lps2lts', [toOutputFileName(fileName, '.lps'), toOutputFileName(fileName, '.lts')], callback);
+}
+
+function mcrl22lts(fileName, callback=()=>{}) {
+	mcrl22lps(fileName, () => lps2lts(fileName, callback));
 }
 
 module.exports = {

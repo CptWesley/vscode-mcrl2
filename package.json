@@ -2,7 +2,7 @@
 	"name": "mcrl2",
 	"displayName": "mCRL2",
 	"description": "Language support for mCRL2. Provides syntax highlighting and run options similar to offical mCRL2 IDE.",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"publisher": "CptWesley",
 	"repository": "https://github.com/CptWesley/vscode-mcrl2",
 	"license": "MIT",
@@ -87,6 +87,12 @@
 				"category": "mCRL2",
 				"title": "Verify Properties",
 				"icon": "$(run-all)"
+			},
+			{
+				"command": "mcrl2.equivalence",
+				"category": "mCRL2",
+				"title": "Compare",
+				"icon": "$(extensions-remote)"
 			}
 		],
 		"keybindings": [
@@ -109,6 +115,11 @@
 				"command": "mcrl2.verifyProperties",
 				"key": "F7",
 				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			},
+			{
+				"command": "mcrl2.equivalence",
+				"key": "F8",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
 			}
 		],
 		"menus": {
@@ -127,6 +138,10 @@
 				},
 				{
 					"command": "mcrl2.verifyProperties",
+					"when": "editorLangId == mcrl2"
+				},
+				{
+					"command": "mcrl2.equivalence",
 					"when": "editorLangId == mcrl2"
 				}
 			],
@@ -153,6 +168,12 @@
 					"command": "mcrl2.verifyProperties",
 					"group": "navigation@3",
 					"title": "Verify Properties",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
+				},
+				{
+					"command": "mcrl2.equivalence",
+					"group": "navigation@4",
+					"title": "Compare",
 					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
 				}
 			]

@@ -75,8 +75,7 @@ function equivalence() {
 								const lines = result.split(/\r?\n/);
 								const line = lines[lines.length - 1];
 								if (line === 'false') {
-									fs.copyFileSync('Counterexample0.trc', toProjectPath('./out/Counterexample0.trc'));
-									fs.unlinkSync('Counterexample0.trc');
+									
 									output.appendLine('\nCounter Example Trace:');
 									runMcrl2('tracepp', [toProjectPath('./out/Counterexample0.trc')]);
 								}
@@ -170,7 +169,9 @@ function createCommand(cmd) {
 }
 
 function run(cmd, callback=function(){}, suppressed=false, errorCallback=function(){}) {
-	let process = cp.exec(cmd);
+	let process = cp.exec(cmd, {
+		cwd: toProjectPath('./out'),
+	});
 	var result = '';
 	process.stdout.setEncoding('utf8');
 	process.stderr.setEncoding('utf8');

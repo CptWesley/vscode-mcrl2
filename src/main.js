@@ -67,9 +67,17 @@ function equivalence() {
 	}
 
 	vscode.window.showQuickPick(names).then(x => {
+		if (!x) {
+			return;
+		}
+
 		const file = map[x];
 
 		vscode.window.showQuickPick(equivalenceNames).then(x => {
+			if (!x) {
+				return;
+			}
+
 			const equivalence = equivalenceTypes[x];
 			mcrl22lts(vscode.window.activeTextEditor.document.fileName, () => {
 				mcrl22lts(file, () => {

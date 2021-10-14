@@ -34,7 +34,7 @@
 		},
 		"type":{
 			"name": "entity.name.type.mcf",
-			"match": "(Bag|Bool|Int|List|Nat|Pos|Real|Set)(?!\\w)"
+			"match": "(Bag|Bool|Int|List|Nat|Pos|Real|Set|Int2Nat|Nat2Int)(?!\\w)"
 		},
 		"control":{
 			"name": "keyword.control.mcf",

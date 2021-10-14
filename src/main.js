@@ -22,7 +22,17 @@ const equivalenceTypes = {
 	'Strong Simulation Equivalence': 'sim',
 	'Strong Ready Simulation Equivalence': 'ready-sim',
 	'Coupled Simulation Equivalence': 'coupled-sim',
+	'Tau Star Reduction': 'tau-star',
 };
+
+const equivalenceBlacklist = [
+	'tau-star'
+];
+
+const reductionBlacklist = [
+	'coupled-sim'
+];
+
 
 const equivalenceNames = Object.keys(equivalenceTypes);
 
@@ -74,7 +84,7 @@ function equivalence() {
 
 		const file = map[x];
 
-		vscode.window.showQuickPick(equivalenceNames).then(x => {
+		vscode.window.showQuickPick(equivalenceNames.filter(x => !equivalenceBlacklist.includes(equivalenceTypes[x]))).then(x => {
 			if (!x) {
 				return;
 			}
@@ -146,7 +156,7 @@ function verifyNextProperty(files, success, total, lpsFile) {
 }
 
 function reduced() {
-	vscode.window.showQuickPick(equivalenceNames).then(x => {
+	vscode.window.showQuickPick(equivalenceNames.filter(x => !reductionBlacklist.includes(equivalenceTypes[x]))).then(x => {
 		if (!x) {
 			return;
 		}

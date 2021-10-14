@@ -104,6 +104,13 @@
 				"title": "Compare",
 				"icon": "$(extensions-remote)"
 			}
+			,
+			{
+				"command": "mcrl2.reduced",
+				"category": "mCRL2",
+				"title": "Show Reduced Graph",
+				"icon": "$(fold)"
+			}
 		],
 		"keybindings": [
 			{
@@ -131,6 +138,12 @@
 				"key": "F8",
 				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed && workbenchState != empty"
 			}
+			,
+			{
+				"command": "mcrl2.reduced",
+				"key": "F9",
+				"when": "editorTextFocus && resourceLangId == mcrl2 && !isInDiffEditor && !findInputFocussed && !replaceInputFocussed"
+			}
 		],
 		"menus": {
 			"commandPalette": [
@@ -153,6 +166,10 @@
 				{
 					"command": "mcrl2.equivalence",
 					"when": "editorLangId == mcrl2 && workbenchState != empty"
+				},
+				{
+					"command": "mcrl2.reduced",
+					"when": "editorLangId == mcrl2"
 				}
 			],
 			"editor/title": [
@@ -185,6 +202,12 @@
 					"group": "navigation@4",
 					"title": "Compare",
 					"when": "resourceLangId == mcrl2 && !isInDiffEditor && workbenchState != empty"
+				},
+				{
+					"command": "mcrl2.reduced",
+					"group": "navigation@5",
+					"title": "Show reduced graph",
+					"when": "resourceLangId == mcrl2 && !isInDiffEditor"
 				}
 			]
 		}

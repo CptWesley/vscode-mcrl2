@@ -33,6 +33,7 @@ function activate(context) {
 	register(context, 'mcrl2.verifyProperties', verifyProperties);
 	register(context, 'mcrl2.equivalence', equivalence);
 	register(context, 'mcrl2.clean', clean);
+	register(context, 'mcrl2.reduced', reduced);
 }
 
 function deactivate() {
@@ -142,6 +143,23 @@ function verifyNextProperty(files, success, total, lpsFile) {
 		}
 		verifyNextProperty(tail, success, total + 1, lpsFile);
 	}, true);
+}
+
+function reduced() {
+	vscode.window.showQuickPick(equivalenceNames).then(x => {
+		if (!x) {
+			return;
+		}
+
+		const equivalence = equivalenceTypes[x];
+		const outExtension = '.' + equivalence + '.lts';
+
+		mcrl22lts(vscode.window.activeTextEditor.document.fileName, () => {
+			runMcrl2('ltsconvert', ['--equivalence=' + equivalence, toOutputFileName(vscode.window.activeTextEditor.document.fileName, '.lts'), toOutputFileName(vscode.window.activeTextEditor.document.fileName, outExtension)], () => {
+				runMcrl2('ltsgraph', [toOutputFileName(vscode.window.activeTextEditor.document.fileName, outExtension)]);
+			});
+		});
+	});
 }
 
 function ensureDirectory(dir) {

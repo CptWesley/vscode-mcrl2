@@ -62,7 +62,7 @@
 				},
 				"mcrl2.linearizationAlgorithm": {
 					"type": "string",
-					"default": "regular",
+					"default": "stack",
 					"enum": ["regular", "regular2", "stack"],
 					"description": "Linearization algorithm used for converting `.mcrl2` files into `.lps` files."
 				}

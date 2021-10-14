@@ -58,8 +58,13 @@
 				"mcrl2.binPath": {
 					"type": "string",
 					"default": "",
-					"scope": "machine-overridable",
 					"description": "Path to the bin folder of an mCRL2 installation. Empty (default) means infer installation directory."
+				},
+				"mcrl2.linearizationAlgorithm": {
+					"type": "string",
+					"default": "regular",
+					"enum": ["regular", "regular2", "stack"],
+					"description": "Linearization algorithm used for converting `.mcrl2` files into `.lps` files."
 				}
 			}
 		},

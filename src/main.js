@@ -238,7 +238,10 @@ function toOutputFileName(fileName, extension) {
 }
 
 function mcrl22lps(fileName, callback=()=>{}) {
-	runMcrl2('mcrl22lps', [fileName, toOutputFileName(fileName, '.lps')], callback);
+	const config = vscode.workspace.getConfiguration('mcrl2');
+	const alg = config.get('linearizationAlgorithm').trim();
+
+	runMcrl2('mcrl22lps', ['-l' + alg, fileName, toOutputFileName(fileName, '.lps')], callback);
 }
 
 function lps2lts(fileName, callback=()=>{}) {

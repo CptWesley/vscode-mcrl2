@@ -2,7 +2,7 @@
 	"name": "mcrl2",
 	"displayName": "mCRL2",
 	"description": "Language support for mCRL2. Provides syntax highlighting and run options similar to offical mCRL2 IDE.",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"publisher": "CptWesley",
 	"repository": "https://github.com/CptWesley/vscode-mcrl2",
 	"license": "MIT",
@@ -62,9 +62,13 @@
 				},
 				"mcrl2.linearizationAlgorithm": {
 					"type": "string",
-					"default": "stack",
+					"default": "regular",
 					"enum": ["regular", "regular2", "stack"],
 					"description": "Linearization algorithm used for converting `.mcrl2` files into `.lps` files."
+				},
+				"mcrl2.verbose": {
+					"type": "boolean",
+					"description": "Verbose program output."
 				}
 			}
 		},

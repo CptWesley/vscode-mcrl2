@@ -232,6 +232,9 @@ function run(cmd, callback=function(){}, suppressed=false, errorCallback=functio
 }
 
 function runMcrl2(cmd, args, callback=function(){}, suppressed=false, errorCallback=function(){}) {
+	const config = vscode.workspace.getConfiguration('mcrl2');
+	const verbose = config.get('verbose');
+
 	vscode.window.activeTextEditor.document.save().then(x => {
 		let argString = args.map(x => {
 			let trimmed = x.trim();
@@ -241,7 +244,7 @@ function runMcrl2(cmd, args, callback=function(){}, suppressed=false, errorCallb
 
 			return trimmed;
 		}).join(' ');
-		run(createCommand(cmd) + ' ' + argString, callback, suppressed, errorCallback);
+		run(createCommand(cmd) + (verbose ? ' -v ' : ' ') + argString, callback, suppressed, errorCallback);
 	});
 }
 

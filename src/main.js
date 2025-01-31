@@ -179,9 +179,12 @@ function ensureDirectory(dir) {
 }
 
 function toProjectPath(pathName='') {
-	const dir = vscode.workspace.workspaceFolders
-		? vscode.workspace.workspaceFolders.filter(x => x.name == vscode.workspace.name)[0].uri.fsPath
+	const workspaceFolders = (vscode.workspace.workspaceFolders ?? []).filter(x => x.name == vscode.workspace.name);
+
+	const dir = workspaceFolders.length > 0
+		? workspaceFolders[0].uri.fsPath
 		: px.dirname(vscode.window.activeTextEditor.document.fileName);
+
 	const normalized = px.normalize(dir);
 	const trimmed = pathName.trim();
 
